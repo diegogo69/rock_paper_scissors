@@ -1,0 +1,10 @@
+- Get commit list with ID -
+git log --oneline
+
+To go back to a previous commit, run the reset command follow by the commit ID
+- Go back to commit of ID xxx
+git reset xxx
+
+We went back to the defined commit, and further commits were deleted. But file changes seem to not change
+- Go back to commit of ID xxx and delete file changes since that commit -
+git reset xxx --hard

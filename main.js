@@ -1,6 +1,6 @@
 // Total number of rounds
 const ROUNDS = 5;
-// Score variables
+// Initiate score variables
 let computerScore = 0;
 let humanScore = 0;
 
@@ -99,24 +99,30 @@ function playRound(computerChoice, humanChoice) {
 
 // Play a full game of five rounds
 function playGame() {
+    // Declare variables for human and computer choices
     let humanSelection, computerSelection;
+    // Repeat ROUNDS number of times the dynamic of a single round
     for (let i = 0; i < ROUNDS; i++) {
+        // Get human and computer choices
         humanSelection = getHumanChoice();
         computerSelection = getComputerChoice();
-
+        // Play single round
         playRound(computerSelection, humanSelection);
     }
-
+    // Computer wins
     if (humanScore < computerScore) {
         alert(`Computers wins by a score of ${computerScore}-${humanScore}.`)
     }
+    // Human wins
     else if (humanScore > computerScore) {
         alert(`You win!. Final score is ${computerScore}-${humanScore}.`)
     }
+    // It's a tie
     else {
         alert(`It's a tie! Final score is ${computerScore}-${humanScore}.`)
 
     }
 }
 
+// Run game
 playGame();
