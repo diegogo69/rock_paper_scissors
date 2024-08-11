@@ -1,5 +1,8 @@
+// Total number of rounds
+const ROUNDS = 5;
 // Score variables
-let computerScore, humanScore = 0;
+let computerScore = 0;
+let humanScore = 0;
 
 // Get computer random choice
 function getComputerChoice() {
@@ -91,10 +94,29 @@ function playRound(computerChoice, humanChoice) {
                 console.log("It's a tie. Both chose Scissors")
         }
     }
-
+    return;
 }
 
+// Play a full game of five rounds
+function playGame() {
+    let humanSelection, computerSelection;
+    for (let i = 0; i < ROUNDS; i++) {
+        humanSelection = getHumanChoice();
+        computerSelection = getComputerChoice();
 
+        playRound(computerSelection, humanSelection);
+    }
 
-console.log(getComputerChoice());
-console.log(getHumanChoice());
+    if (humanScore < computerScore) {
+        alert(`Computers wins by a score of ${computerScore}-${humanScore}.`)
+    }
+    else if (humanScore > computerScore) {
+        alert(`You win!. Final score is ${computerScore}-${humanScore}.`)
+    }
+    else {
+        alert(`It's a tie! Final score is ${computerScore}-${humanScore}.`)
+
+    }
+}
+
+playGame();
