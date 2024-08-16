@@ -36,26 +36,31 @@ function getHumanChoice() {
 }
 
 // Play a single round of the game
-function playRound(computerChoice, humanChoice) {
+function playRound(humanChoice, computerChoice) {
     computerChoice = computerChoice.toLowerCase();
     humanChoice = humanChoice.toLowerCase();
 
+    if (humanChoice === computerChoice) {
+        console.log(`Both chose ${humanChoice}`);
+        msgBoard.textContent = `Both chose ${humanChoice}`;
+
+    }
+
     // If human chooses Rock
-    if (humanChoice === "rock") {
+    else if (humanChoice === "rock") {
         switch (computerChoice) {
             // Human chose Rock, computer chose Scissors
             case "scissors":
-                console.log("You win! Rock beats scissors");
+                console.log("Rock beats scissors");
+                msgBoard.textContent = 'Rock beats scissors';
                 humanScore++
                 break;
             // Human chose Rock, computer chose Paper
             case "paper":
-                console.log("You lose! Rock is beaten by paper");
+                console.log("Rock is beaten by paper");
+                msgBoard.textContent = 'Rock is beaten by paper';
                 computerScore++;
                 break;
-            // Human chose Rock, computer chose Rock
-            default:
-                console.log("It's a tie. Both chose rock")
         }
     }
     // Human chooses Paper
@@ -63,39 +68,80 @@ function playRound(computerChoice, humanChoice) {
         switch (computerChoice) {
             // Human chose Paper, computer chose Rock
             case "rock":
-                console.log("You win! Paper beats rock");
+                console.log("Paper beats rock");
+                msgBoard.textContent = 'Paper beats rock';
                 humanScore++
                 break;
             // Human chose Paper, computer chose Scissors
             case "scissors":
-                console.log("You lose! Paper is beaten by scissors");
+                console.log("Paper is beaten by scissors");
+                msgBoard.textContent = 'Paper is beaten by scissors';
                 computerScore++;
                 break;
-            // Human chose Paper, computer chose Paper
-            default:
-                console.log("It's a tie. Both chose paper")
         }
     }
     // Human chooses Scissors
-    else {
+    else if (humanChoice === "scissors") {
         switch (computerChoice) {
             // Human chose Paper, computer chose Paper
             case "paper":
-                console.log("You win! Scissors beats Paper");
+                console.log("Scissors beats Paper");
+                msgBoard.textContent = 'Scissors beats Paper';
                 humanScore++
                 break;
             // Human chose Paper, computer chose Rock
             case "rock":
-                console.log("You lose! Scissors beaten by Rock");
+                console.log("Scissors beaten by Rock");
+                msgBoard.textContent = 'Scissors beaten by Rock';
                 computerScore++;
                 break;
-            // Human chose Paper, computer chose Scissors
-            default:
-                console.log("It's a tie. Both chose Scissors")
         }
     }
+
+    updateScores(humanScore, computerScore);
     return;
 }
+
+function updateScores(humanScore, computerScore) {
+    playerScoreBoard.textContent = humanScore;
+    computerScoreBoard.textContent = computerScore;
+
+    if (humanScore >= 5) {
+        msgBoard.textContent = 'Congrats! You won this game';
+        hideBtnChoices();
+    } else if (computerScore >= 5) {
+        msgBoard.textContent = 'Sorry. You lost this game';
+        hideBtnChoices();
+    }
+}
+
+const btnChoices = document.querySelectorAll('.btnChoices');
+const playerScoreBoard = document.querySelector('#playerScore');
+const computerScoreBoard = document.querySelector('#computerScore');
+const msgBoard = document.querySelector('#msgBoard');
+
+btnChoices.forEach(btn => {
+    btn.addEventListener('click', event => {
+        let humanSelection = event.target.textContent;
+        let computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+    })
+});
+
+function hideBtnChoices() {
+    for (const btn of btnChoices) {
+        btn.classList.toggle('hidden');
+    } 
+}
+
+btnPlay.addEventListener('click', () => {
+    hideBtnChoices();
+
+    // Get human and computer choices
+    computerSelection = getComputerChoice();
+})
+
+
 
 // Play a full game of five rounds
 function playGame() {
@@ -125,4 +171,4 @@ function playGame() {
 }
 
 // Run game
-playGame();
+// playGame();

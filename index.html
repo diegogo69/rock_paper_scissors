@@ -4,8 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>    
 </head>
 <body>
-    <script src="main.js"></script>    
+    <header></header>
+    <main>
+        <div class="billboard">
+            <!-- <img src="img/characters.png" alt="Illustration of animated characters for rock, paper, scissors"> -->
+        </div>
+        <div id="msgBoard">
+            Let's settle this like adults.
+        </div>
+        <div class="scoreBoard">
+            <div class="player">Player Score
+                <div id="playerScore">0</div>
+            </div>
+            <div class="computer">Computer Score</div>
+            <div id="computerScore">0</div>
+        </div>
+        <div class="playButtons">
+            <button class="play" id="btnPlay">Play</button>
+            <button class="hidden btnChoices" id="btnRock">Rock</button>
+            <button class="hidden btnChoices" id="btnPaper">Paper</button>
+            <button class="hidden btnChoices" id="btnScissors">Scissors</button>
+            
+        </div>
+    </main>
+    <footer></footer>
+
 </body>
 </html>

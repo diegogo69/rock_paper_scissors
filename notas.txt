@@ -8,3 +8,12 @@ git reset xxx
 We went back to the defined commit, and further commits were deleted. But file changes seem to not change
 - Go back to commit of ID xxx and delete file changes since that commit -
 git reset xxx --hard
+
+Create UI branch and change to it
+git checkout -b rps-ui
+
+Push new branch to github repository
+git push origin rps-ui
+
+See current branch
+git branch
