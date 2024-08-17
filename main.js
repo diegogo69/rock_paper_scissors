@@ -37,9 +37,11 @@ function getHumanChoice() {
 
 // Play a single round of the game
 function playRound(humanChoice, computerChoice) {
+    // Make choices case insensitive
     computerChoice = computerChoice.toLowerCase();
     humanChoice = humanChoice.toLowerCase();
 
+    // If there's a Tie
     if (humanChoice === computerChoice) {
         console.log(`Both chose ${humanChoice}`);
         msgBoard.textContent = `Both chose ${humanChoice}`;
@@ -99,49 +101,83 @@ function playRound(humanChoice, computerChoice) {
     }
 
     updateScores(humanScore, computerScore);
+
+    if (humanScore >= 5 || computerScore >= 5) {
+        if (humanScore > computerScore) msgBoard.textContent = 'Congrats! You won this game';        
+        else msgBoard.textContent = 'Sorry. You lost this game';
+
+        // Show Try Again
+        hideBtnPlay();
+        hideBtnTryAgain();
+    }
+    // Hide Choices button
+    hideBtnChoices();
+    // Show PLAY button again
+    hideBtnPlay();
     return;
 }
 
+// Update global scores. And declare a winner
 function updateScores(humanScore, computerScore) {
     playerScoreBoard.textContent = humanScore;
     computerScoreBoard.textContent = computerScore;
-
-    if (humanScore >= 5) {
-        msgBoard.textContent = 'Congrats! You won this game';
-        hideBtnChoices();
-    } else if (computerScore >= 5) {
-        msgBoard.textContent = 'Sorry. You lost this game';
-        hideBtnChoices();
-    }
 }
 
-const btnChoices = document.querySelectorAll('.btnChoices');
+// Select player score board
 const playerScoreBoard = document.querySelector('#playerScore');
+// Select computer score board
 const computerScoreBoard = document.querySelector('#computerScore');
+// Select div for showing messages
 const msgBoard = document.querySelector('#msgBoard');
 
+// Select all three buttons for rock, paper and scissors
+const btnChoices = document.querySelectorAll('.btnChoices');
+// Add event listener for choice buttons
 btnChoices.forEach(btn => {
     btn.addEventListener('click', event => {
+        // Get value from button for human choice
         let humanSelection = event.target.textContent;
         let computerSelection = getComputerChoice();
         playRound(humanSelection, computerSelection);
     })
 });
 
+
+// Listener for PLAY Button.
+const btnPlay = document.querySelector('#btnPlay');
+btnPlay.addEventListener('click', () => {
+    // Show Choices buttons
+    hideBtnChoices();
+    // Hide Play button
+    hideBtnPlay();
+})
+// Hide PLAY button
+function hideBtnPlay() {btnPlay.classList.toggle('hidden');}
+
+// Listener for Try Again
+const btnTryAgain = document.querySelector('#btnTryAgain');
+btnTryAgain.addEventListener('click', () => {
+    restartGame();
+    hideBtnTryAgain();
+})
+function hideBtnTryAgain() {btnTryAgain.classList.toggle('hidden');}
+
+// Hide choice buttons
 function hideBtnChoices() {
     for (const btn of btnChoices) {
         btn.classList.toggle('hidden');
     } 
 }
 
-btnPlay.addEventListener('click', () => {
-    hideBtnChoices();
+// Restart
+function restartGame() {
+    humanScore = 0;
+    computerScore = 0;
+    updateScores(humanScore, computerScore);
+    msgBoard.textContent = "Let's settle this like adults";
+    hideBtnPlay();
 
-    // Get human and computer choices
-    computerSelection = getComputerChoice();
-})
-
-
+}
 
 // Play a full game of five rounds
 function playGame() {
