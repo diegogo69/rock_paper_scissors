@@ -1,3 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    outline: 1px solid red;
+}
+
+header,
+footer {
+    height: 72px;
+    flex: none;
+    align-content: center;
+    text-align: center;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+body {
+    font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .hidden {
     display: none;
+}
+
+.billboard {
+    height: 250px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+}
+
+/* #imgCharacters {
+    height: 250px;
+} */
+
+#msgBoard {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.scoreBoard {
+    display: flex;
+}
+
+.scoreHeader {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+button {
+    padding: 8px 24px;
+}
+
+img {
+    height: 250px;
 }
