@@ -21,6 +21,10 @@ const imgRockScissors = document.querySelector('#imgRockScissors');
 const imgPaperRock = document.querySelector('#imgPaperRock');
 const imgScissorsPaper = document.querySelector('#imgScissorsPaper');
 
+const imgRock = document.querySelector('#imgRock');
+const imgPaper = document.querySelector('#imgPaper');
+const imgScissors = document.querySelector('#imgScissors');
+
 function toggleImgRockScissors() {
     imgRockScissors.classList.toggle('hidden');
 }
@@ -33,6 +37,18 @@ function toggleImgScissorsPaper() {
 
 function toggleImgCharacters() {
     imgCharacters.classList.toggle('hidden');
+}
+
+function toggleImgRock() {
+    imgRock.classList.toggle('hidden');
+}
+
+function toggleImgPaper() {
+    imgPaper.classList.toggle('hidden');
+}
+
+function toggleImgScissors() {
+    imgScissors.classList.toggle('hidden');
 }
 
 // Get computer random choice
@@ -73,14 +89,8 @@ function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase();
 
     // If there's a Tie
-    if (humanChoice === computerChoice) {
-        console.log(`Both chose ${humanChoice}`);
-        msgBoard.textContent = `Both chose ${humanChoice}`;
-
-    }
-
     // If human chooses Rock
-    else if (humanChoice === "rock") {
+    if (humanChoice === "rock") {
         switch (computerChoice) {
             // Human chose Rock, computer chose Scissors
             case "scissors":
@@ -100,6 +110,13 @@ function playRound(humanChoice, computerChoice) {
 
                 hideImgBoard();
                 toggleImgPaperRock();
+                break;
+
+            default:
+                console.log(`Both chose ${humanChoice}`);
+                msgBoard.textContent = `Both chose ${humanChoice}`;
+                hideImgBoard();
+                toggleImgRock();
                 break;
         }
     }
@@ -124,6 +141,13 @@ function playRound(humanChoice, computerChoice) {
                 hideImgBoard();
                 toggleImgScissorsPaper();
                 break;
+
+            default:
+                console.log(`Both chose ${humanChoice}`);
+                msgBoard.textContent = `Both chose ${humanChoice}`;
+                hideImgBoard();
+                toggleImgPaper();
+                break;
         }
     }
     // Human chooses Scissors
@@ -146,6 +170,13 @@ function playRound(humanChoice, computerChoice) {
 
                 hideImgBoard();
                 toggleImgRockScissors();
+                break;
+
+            default:
+                console.log(`Both chose ${humanChoice}`);
+                msgBoard.textContent = `Both chose ${humanChoice}`;
+                hideImgBoard();
+                toggleImgScissors();
                 break;
         }
     }
@@ -208,6 +239,8 @@ function hideBtnPlay() {btnPlay.classList.toggle('hidden');}
 const btnTryAgain = document.querySelector('#btnTryAgain');
 btnTryAgain.addEventListener('click', () => {
     restartGame();
+    hideImgBoard();
+    toggleImgCharacters();
     hideBtnTryAgain();
 })
 function hideBtnTryAgain() {btnTryAgain.classList.toggle('hidden');}
