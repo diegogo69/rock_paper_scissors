@@ -4,6 +4,37 @@ const ROUNDS = 5;
 let computerScore = 0;
 let humanScore = 0;
 
+// Selector for the image at the moment
+const imgBoard = document.querySelectorAll('.imgBoard');
+// Hide current visible image
+function hideImgBoard() {
+    imgBoard.forEach(img => {
+        if (!img.classList.contains('hidden')) {
+            img.classList.toggle('hidden');
+        }
+        
+    });
+}
+// Images references
+const imgCharacters = document.querySelector('#imgCharacters');
+const imgRockScissors = document.querySelector('#imgRockScissors');
+const imgPaperRock = document.querySelector('#imgPaperRock');
+const imgScissorsPaper = document.querySelector('#imgScissorsPaper');
+
+function toggleImgRockScissors() {
+    imgRockScissors.classList.toggle('hidden');
+}
+function toggleImgPaperRock() {
+    imgPaperRock.classList.toggle('hidden');
+}
+function toggleImgScissorsPaper() {
+    imgScissorsPaper.classList.toggle('hidden');
+}
+
+function toggleImgCharacters() {
+    imgCharacters.classList.toggle('hidden');
+}
+
 // Get computer random choice
 function getComputerChoice() {
     // Generate computer choice
@@ -56,12 +87,19 @@ function playRound(humanChoice, computerChoice) {
                 console.log("Rock beats scissors");
                 msgBoard.textContent = 'Rock beats scissors';
                 humanScore++
+
+                // change image
+                hideImgBoard();
+                toggleImgRockScissors();
                 break;
             // Human chose Rock, computer chose Paper
             case "paper":
                 console.log("Rock is beaten by paper");
                 msgBoard.textContent = 'Rock is beaten by paper';
                 computerScore++;
+
+                hideImgBoard();
+                toggleImgPaperRock();
                 break;
         }
     }
@@ -73,12 +111,18 @@ function playRound(humanChoice, computerChoice) {
                 console.log("Paper beats rock");
                 msgBoard.textContent = 'Paper beats rock';
                 humanScore++
+
+                hideImgBoard();
+                toggleImgPaperRock();
                 break;
             // Human chose Paper, computer chose Scissors
             case "scissors":
                 console.log("Paper is beaten by scissors");
                 msgBoard.textContent = 'Paper is beaten by scissors';
                 computerScore++;
+
+                hideImgBoard();
+                toggleImgScissorsPaper();
                 break;
         }
     }
@@ -90,17 +134,23 @@ function playRound(humanChoice, computerChoice) {
                 console.log("Scissors beats Paper");
                 msgBoard.textContent = 'Scissors beats Paper';
                 humanScore++
+
+                hideImgBoard();
+                toggleImgScissorsPaper();
                 break;
             // Human chose Paper, computer chose Rock
             case "rock":
                 console.log("Scissors beaten by Rock");
                 msgBoard.textContent = 'Scissors beaten by Rock';
                 computerScore++;
+
+                hideImgBoard();
+                toggleImgRockScissors();
                 break;
         }
     }
 
-    updateScores(humanScore, computerScore);
+    updateScoreBoard(humanScore, computerScore);
 
     if (humanScore >= 5 || computerScore >= 5) {
         if (humanScore > computerScore) msgBoard.textContent = 'Congrats! You won this game';        
@@ -118,7 +168,7 @@ function playRound(humanChoice, computerChoice) {
 }
 
 // Update global scores. And declare a winner
-function updateScores(humanScore, computerScore) {
+function updateScoreBoard(humanScore, computerScore) {
     playerScoreBoard.textContent = humanScore;
     computerScoreBoard.textContent = computerScore;
 }
@@ -173,7 +223,7 @@ function hideBtnChoices() {
 function restartGame() {
     humanScore = 0;
     computerScore = 0;
-    updateScores(humanScore, computerScore);
+    updateScoreBoard(humanScore, computerScore);
     msgBoard.textContent = "Let's settle this like adults";
     hideBtnPlay();
 
