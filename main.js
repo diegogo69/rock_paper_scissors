@@ -4,52 +4,19 @@ const ROUNDS = 5;
 let computerScore = 0;
 let humanScore = 0;
 
-// Selector for the image at the moment
-const imgBoard = document.querySelectorAll('.imgBoard');
-// Hide current visible image
-function hideImgBoard() {
-    imgBoard.forEach(img => {
-        if (!img.classList.contains('hidden')) {
-            img.classList.toggle('hidden');
-        }
-        
-    });
-}
 // Images references
 const imgCharacters = document.querySelector('#imgCharacters');
 const imgRockScissors = document.querySelector('#imgRockScissors');
 const imgPaperRock = document.querySelector('#imgPaperRock');
 const imgScissorsPaper = document.querySelector('#imgScissorsPaper');
-
 const imgRock = document.querySelector('#imgRock');
 const imgPaper = document.querySelector('#imgPaper');
 const imgScissors = document.querySelector('#imgScissors');
 
-function toggleImgRockScissors() {
-    imgRockScissors.classList.toggle('hidden');
-}
-function toggleImgPaperRock() {
-    imgPaperRock.classList.toggle('hidden');
-}
-function toggleImgScissorsPaper() {
-    imgScissorsPaper.classList.toggle('hidden');
-}
-
-function toggleImgCharacters() {
-    imgCharacters.classList.toggle('hidden');
-}
-
-function toggleImgRock() {
-    imgRock.classList.toggle('hidden');
-}
-
-function toggleImgPaper() {
-    imgPaper.classList.toggle('hidden');
-}
-
-function toggleImgScissors() {
-    imgScissors.classList.toggle('hidden');
-}
+// References for Score and message boards
+const playerScoreBoard = document.querySelector('#playerScore');
+const computerScoreBoard = document.querySelector('#computerScore');
+const msgBoard = document.querySelector('#msgBoard');
 
 // Get computer random choice
 function getComputerChoice() {
@@ -88,7 +55,6 @@ function playRound(humanChoice, computerChoice) {
     computerChoice = computerChoice.toLowerCase();
     humanChoice = humanChoice.toLowerCase();
 
-    // If there's a Tie
     // If human chooses Rock
     if (humanChoice === "rock") {
         switch (computerChoice) {
@@ -97,10 +63,9 @@ function playRound(humanChoice, computerChoice) {
                 console.log("Rock beats scissors");
                 msgBoard.textContent = 'Rock beats scissors';
                 humanScore++
-
                 // change image
-                hideImgBoard();
-                toggleImgRockScissors();
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'win');
                 break;
             // Human chose Rock, computer chose Paper
             case "paper":
@@ -108,15 +73,16 @@ function playRound(humanChoice, computerChoice) {
                 msgBoard.textContent = 'Rock is beaten by paper';
                 computerScore++;
 
-                hideImgBoard();
-                toggleImgPaperRock();
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'defeat');
                 break;
 
             default:
                 console.log(`Both chose ${humanChoice}`);
                 msgBoard.textContent = `Both chose ${humanChoice}`;
-                hideImgBoard();
-                toggleImgRock();
+
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'tie');
                 break;
         }
     }
@@ -129,8 +95,8 @@ function playRound(humanChoice, computerChoice) {
                 msgBoard.textContent = 'Paper beats rock';
                 humanScore++
 
-                hideImgBoard();
-                toggleImgPaperRock();
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'win');
                 break;
             // Human chose Paper, computer chose Scissors
             case "scissors":
@@ -138,15 +104,16 @@ function playRound(humanChoice, computerChoice) {
                 msgBoard.textContent = 'Paper is beaten by scissors';
                 computerScore++;
 
-                hideImgBoard();
-                toggleImgScissorsPaper();
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'defeat');
                 break;
 
             default:
                 console.log(`Both chose ${humanChoice}`);
                 msgBoard.textContent = `Both chose ${humanChoice}`;
-                hideImgBoard();
-                toggleImgPaper();
+
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'tie');
                 break;
         }
     }
@@ -159,8 +126,8 @@ function playRound(humanChoice, computerChoice) {
                 msgBoard.textContent = 'Scissors beats Paper';
                 humanScore++
 
-                hideImgBoard();
-                toggleImgScissorsPaper();
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'win');
                 break;
             // Human chose Paper, computer chose Rock
             case "rock":
@@ -168,34 +135,57 @@ function playRound(humanChoice, computerChoice) {
                 msgBoard.textContent = 'Scissors beaten by Rock';
                 computerScore++;
 
-                hideImgBoard();
-                toggleImgRockScissors();
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'defeat');
                 break;
 
             default:
                 console.log(`Both chose ${humanChoice}`);
                 msgBoard.textContent = `Both chose ${humanChoice}`;
-                hideImgBoard();
-                toggleImgScissors();
+                toggleImgBoard();
+                toggleCharacterImg(humanChoice, 'tie');
                 break;
         }
     }
 
     updateScoreBoard(humanScore, computerScore);
+    checkIfWinner();
+    // Hide Choices button
+    toggleBtnChoices();
+    // Show PLAY button again
+    toggleBtnPlay();
+    return;
+}
 
+// Check winner
+function checkIfWinner() {
     if (humanScore >= 5 || computerScore >= 5) {
         if (humanScore > computerScore) msgBoard.textContent = 'Congrats! You won this game';        
         else msgBoard.textContent = 'Sorry. You lost this game';
-
+    
         // Show Try Again
-        hideBtnPlay();
-        hideBtnTryAgain();
+        toggleBtnPlay();
+        toggleBtnTryAgain();
     }
-    // Hide Choices button
-    hideBtnChoices();
-    // Show PLAY button again
-    hideBtnPlay();
-    return;
+}
+
+// Selector for the image at the moment
+const imgBoard = document.querySelectorAll('.imgBoard');
+// Hide current visible image
+function toggleImgBoard() {
+    imgBoard.forEach(img => {
+        // If not hidden. Then hide
+        if (!img.classList.contains('hidden')) {
+            img.classList.toggle('hidden');
+            // Delete any result shadow if any
+            if (img.classList.contains('successShadow')) {
+                img.classList.toggle('successShadow')
+            } else if (img.classList.contains('defeatShadow')) {
+                img.classList.toggle('defeatShadow')
+            }
+        }
+ 
+    });
 }
 
 // Update global scores. And declare a winner
@@ -204,12 +194,23 @@ function updateScoreBoard(humanScore, computerScore) {
     computerScoreBoard.textContent = computerScore;
 }
 
-// Select player score board
-const playerScoreBoard = document.querySelector('#playerScore');
-// Select computer score board
-const computerScoreBoard = document.querySelector('#computerScore');
-// Select div for showing messages
-const msgBoard = document.querySelector('#msgBoard');
+// Hide Score board when no started game
+const scoreBoard = document.querySelector('#scoreBoard');
+function toggleScoreBoard() {
+    scoreBoard.classList.toggle('hidden')
+}
+
+// Display/hide main image with all characters
+function toggleImgCharacters() {
+    imgCharacters.classList.toggle('hidden');
+}
+
+// Hide choice buttons
+function toggleBtnChoices() {
+    for (const btn of btnChoices) {
+        btn.classList.toggle('hidden');
+    } 
+}
 
 // Select all three buttons for rock, paper and scissors
 const btnChoices = document.querySelectorAll('.btnChoices');
@@ -223,34 +224,26 @@ btnChoices.forEach(btn => {
     })
 });
 
-
 // Listener for PLAY Button.
 const btnPlay = document.querySelector('#btnPlay');
+function toggleBtnPlay() {btnPlay.classList.toggle('hidden');}
 btnPlay.addEventListener('click', () => {
     // Show Choices buttons
-    hideBtnChoices();
+    toggleBtnChoices();
     // Hide Play button
-    hideBtnPlay();
+    toggleBtnPlay();
 })
-// Hide PLAY button
-function hideBtnPlay() {btnPlay.classList.toggle('hidden');}
 
 // Listener for Try Again
 const btnTryAgain = document.querySelector('#btnTryAgain');
 btnTryAgain.addEventListener('click', () => {
     restartGame();
-    hideImgBoard();
+    toggleImgBoard();
     toggleImgCharacters();
-    hideBtnTryAgain();
+    toggleBtnTryAgain();
 })
-function hideBtnTryAgain() {btnTryAgain.classList.toggle('hidden');}
+function toggleBtnTryAgain() {btnTryAgain.classList.toggle('hidden');}
 
-// Hide choice buttons
-function hideBtnChoices() {
-    for (const btn of btnChoices) {
-        btn.classList.toggle('hidden');
-    } 
-}
 
 // Restart
 function restartGame() {
@@ -258,36 +251,53 @@ function restartGame() {
     computerScore = 0;
     updateScoreBoard(humanScore, computerScore);
     msgBoard.textContent = "Let's settle this like adults";
-    hideBtnPlay();
+    toggleBtnPlay();
 
 }
 
-// Play a full game of five rounds
-function playGame() {
-    // Declare variables for human and computer choices
-    let humanSelection, computerSelection;
-    // Repeat ROUNDS number of times the dynamic of a single round
-    for (let i = 0; i < ROUNDS; i++) {
-        // Get human and computer choices
-        humanSelection = getHumanChoice();
-        computerSelection = getComputerChoice();
-        // Play single round
-        playRound(computerSelection, humanSelection);
-    }
-    // Computer wins
-    if (humanScore < computerScore) {
-        alert(`Computers wins by a score of ${computerScore}-${humanScore}.`)
-    }
-    // Human wins
-    else if (humanScore > computerScore) {
-        alert(`You win!. Final score is ${computerScore}-${humanScore}.`)
-    }
-    // It's a tie
-    else {
-        alert(`It's a tie! Final score is ${computerScore}-${humanScore}.`)
-
-    }
+// Display characters images based on choice and result
+function toggleCharacterImg(character, result) {
+    if (character === 'rock') {
+        switch (result) {
+            case 'win':
+                imgRockScissors.classList.toggle('hidden');
+                imgRockScissors.classList.toggle('successShadow');
+                break;
+            case 'defeat':
+                imgPaperRock.classList.toggle('hidden');
+                imgPaperRock.classList.toggle('defeatShadow');
+                break;
+            default:
+                imgRock.classList.toggle('hidden');
+                break;
+        }
+    } else if (character === 'paper') {
+        switch (result) {
+            case 'win':
+                imgPaperRock.classList.toggle('hidden');
+                imgPaperRock.classList.toggle('successShadow');
+                break;
+            case 'defeat':
+                imgScissorsPaper.classList.toggle('hidden');
+                imgScissorsPaper.classList.toggle('defeatShadow');
+                break;
+            default:
+                imgPaper.classList.toggle('hidden');
+                break;
+        }
+    } else if (character === 'scissors') {
+        switch (result) {
+            case 'win':
+                imgScissorsPaper.classList.toggle('hidden');
+                imgScissorsPaper.classList.toggle('successShadow');
+                break;
+            case 'defeat':
+                imgRockScissors.classList.toggle('hidden');
+                imgRockScissors.classList.toggle('defeatShadow');
+                break;
+            default:
+                imgScissors.classList.toggle('hidden');
+                break;
+            }
+    } 
 }
-
-// Run game
-// playGame();
