@@ -63,9 +63,9 @@ body {
 
 
 .scoreHeader {
+    width: 170px;
     font-size: 22px;
     font-weight: 500;
-    width: 160px;
     text-align: center;
 }
 
