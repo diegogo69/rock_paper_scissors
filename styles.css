@@ -75,14 +75,21 @@ body {
     text-align: center;
 }
 
+
 button {
     width: 85px;
     height: 35px;
     font-size: 16px;
     font-weight: 900;
-    color: #ffffee;
+    color: #fffffe;
     background-color: lightskyblue;
     border-radius: 5px;
+    box-shadow: 1px 1px 1px rgb(189, 189, 189);
+}
+
+button:hover {
+    background-color: rgb(85, 190, 255);
+
 }
 
 #btnRock {
@@ -90,9 +97,18 @@ button {
     color: white;
 }
 
+#btnRock:hover {
+    background-color: #eca558;
+}
+
+
 #btnPaper {
-    background-color: #efefef;
+    background-color: #f2f3f3;
     color: #373c3f;
+}
+
+#btnPaper:hover {
+    background-color: #e2e2e2;
 }
 
 img {
